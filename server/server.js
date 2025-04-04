@@ -1,19 +1,16 @@
 // server/server.js
 
 const dotenv = require("dotenv");
-dotenv.config(); // ✅ LOAD THIS FIRST
+dotenv.config(); // ✅ Load .env first
 
 const express = require("express");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY); // ✅ AFTER dotenv.config()
-
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const path = require("path");
-
-dotenv.config();
-
 const app = express();
+
 const PORT = process.env.PORT || 4242;
 
-// Serve static files (like your HTML and CSS)
+// Serve frontend files
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 
@@ -30,13 +27,13 @@ app.post("/create-checkout-session", async (req, res) => {
             product_data: {
               name: "Trial Coaching Session",
             },
-            unit_amount: 7500, // $25.00 in cents
+            unit_amount: 7500, // $75 in cents
           },
           quantity: 1,
         },
       ],
-      success_url: "http://localhost:4242/success.html",
-      cancel_url: "http://localhost:4242/coaching.html",
+      success_url: "https://www.prstncoaching.shop/success.html",  // ✅ LIVE DOMAIN
+      cancel_url: "https://www.prstncoaching.shop/coaching.html",  // ✅ LIVE DOMAIN
     });
 
     res.redirect(303, session.url);
@@ -46,6 +43,7 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
+// Start server
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
