@@ -27,7 +27,7 @@ app.post("/create-checkout-session", async (req, res) => {
             product_data: {
               name: "Trial Coaching Session",
             },
-            unit_amount: 7500, // $75 in cents
+            unit_amount: 300, // $75 in cents
           },
           quantity: 1,
         },
